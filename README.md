@@ -1,4 +1,6 @@
 # RPCS3-ISOLauncher-Launchbox
+Old instructions, will update with how to if any interest is shown.
+
 Used to mount ISO images in Lanchbox then run with RPCS3 emulator
 https://forums.launchbox-app.com/topic/42569-rpcs3-iso-support-with-powershell/
 
