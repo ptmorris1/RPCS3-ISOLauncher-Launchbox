@@ -1,5 +1,9 @@
 # RPCS3-ISOLauncher-Launchbox
 
+This is a PowerShell script to mount an ISO image to be run in the [RPCS3](https://rpcs3.net) emulator using [Launchbox](https://www.launchbox-app.com)
+
+Can also be used without Lanchbox. Follow step 1 below then run in powershell like: ***.\RPCS3-ISO-LaunchBox.ps1 -ISOpath D:\my.iso***
+
 New script build, can be run directly in Launchbox using PowerShell
 
 Discussion. [RPCS3 ISO support](https://forums.launchbox-app.com/topic/42569-rpcs3-iso-support-with-powershell/)
