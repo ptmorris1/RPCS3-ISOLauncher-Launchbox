@@ -46,7 +46,7 @@ Discussion. [RPCS3 ISO support](https://forums.launchbox-app.com/topic/42569-rpc
 ***E SYS: Booting ':/PS3_GAME/USRDIR/EBOOT.BIN' with cli argument failed: reason: Invalid file or folder***
 
 - If RPCS3 gives error about path, may need to change mount wait time.
-Edit script and change line 12: Start-Sleep -Seconds 2
+Edit script and change line 12: ***Start-Sleep -Seconds 2***
 Change 2 to 3 or however many seconds your system needs to mount your ISO.
 
 ***RPCS3 closes to fast***
