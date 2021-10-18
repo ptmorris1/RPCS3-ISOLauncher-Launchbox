@@ -7,7 +7,7 @@ Discussion. [RPCS3 ISO support](https://forums.launchbox-app.com/topic/42569-rpc
 ## Install
 
 1. Copy RPCS3-ISO-LaunchBox.ps1 script to same folder as the RPCS3.exe.
-- IF NEEDED, change $RPCS3path variable inside ps1 script to direct path.
+- If you don't want to put script in same folder, change $RPCS3path variable inside ps1 script to direct path where you put script.
 
         $RPCS3path = "$PSScriptRoot\rpcs3.exe"  # this is default and loads rpcs3.exe from same folder as script, no change needed.
 
