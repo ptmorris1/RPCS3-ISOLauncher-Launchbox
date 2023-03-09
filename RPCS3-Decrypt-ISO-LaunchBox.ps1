@@ -7,7 +7,7 @@ param (
 # Put script in same folder as rpcs3.exe or change to direct path.
 $RPCS3path = "$PSScriptRoot\rpcs3.exe"
 #Path to PS3DEC.exe
-$PS3DEC = "$PSScriptRoot\PS3Dec.exe"
+$PS3DEC = "$PSScriptRoot\ps3dec\PS3Dec.exe"
 #path to disc key files for decryptions
 $KeysPath = "$PSScriptRoot\dkeys"
 
