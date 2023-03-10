@@ -6,7 +6,13 @@ Can also be used without Lanchbox. Follow step 1 below then run in powershell li
 
 New script build, can be run directly in Launchbox using PowerShell
 
-Discussion. [RPCS3 ISO support](https://forums.launchbox-app.com/topic/42569-rpcs3-iso-support-with-powershell/)
+Added Decrypt on launch script as well as batch decrypt script using PS3DEC.exe
+
+Discussion:
+
+[RPCS3 ISO support](https://forums.launchbox-app.com/topic/42569-rpcs3-iso-support-with-powershell/)
+
+[Decrypt](https://forums.launchbox-app.com/topic/72105-ps3-looking-to-create-a-batch-file-to-decrypt-isos-with-ps3dec-when-launching-a-game-then-delete-the-decrypted-ps3-file-on-quit/)
 
 ## Install
 
