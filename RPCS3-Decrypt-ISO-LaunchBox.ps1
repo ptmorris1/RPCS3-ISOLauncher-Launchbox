@@ -11,10 +11,10 @@ $PS3DEC = "$PSScriptRoot\ps3dec\PS3Dec.exe"
 #path to disc key files for decryptions
 $KeysPath = "$PSScriptRoot\dkeys"
 
-$Keys = Get-ChildItem $KeysPath
+$Keys = Get-ChildItem -LiteralPath $KeysPath
 $ISOname = [System.IO.Path]::GetFileNameWithoutExtension($ISOpath)
 $Key = $Keys | Where-Object -Property name -Like "$ISOname*"
-$KeyValue = Get-Content $key.FullName
+$KeyValue = Get-Content -LiteralPath $key.FullName
 $DecryptISO =  (Split-Path $ISOpath -Parent) + "\$ISOname" + "_DEC.iso"
 
 & $PS3DEC d key $KeyValue $ISOpath $DecryptISO | Out-Null
@@ -35,4 +35,4 @@ Start-Sleep -Seconds 2
 Wait-Process rpcs3
 # Dismounts the ISO image drive
 Dismount-DiskImage -ImagePath $DecryptISO
-Remove-Item $DecryptISO -Force
+Remove-Item -LiteralPath $DecryptISO -Force
