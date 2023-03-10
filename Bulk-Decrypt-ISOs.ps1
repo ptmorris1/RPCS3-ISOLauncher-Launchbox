@@ -15,7 +15,7 @@ $report = foreach ($iso in $ISOall) {
     [int]$currentItem = [array]::indexof($ISOall, $iso)
     Write-Progress -Activity 'Decrypting isos....' -Status "Currently Decrypting - $($iso.name) - $($currentItem) of $($ISOall.Count - 1) $([math]::round((($currentItem + 1)/$ISOall.Count),2) * 100)% " -PercentComplete $([float](($currentItem + 1) / $ISOall.Count) * 100)
     Clear-Variable key -ErrorAction SilentlyContinue
-    $Key = Get-ChildItem -LiteralPath $dKeys | Where-Object -Property name -Like "$([System.IO.Path]::GetFileNameWithoutExtension($iso.fullname))*"
+    $Key = Get-ChildItem -LiteralPath $dKeys | Where-Object -Property name -Like "$([System.IO.Path]::GetFileNameWithoutExtension($iso.fullname)).dkey"
     if ($null -ne $key){
         Write-Host "Decrypting... $($iso.name)" -ForegroundColor Green
         $KeyValue = Get-Content -LiteralPath $key.FullName
