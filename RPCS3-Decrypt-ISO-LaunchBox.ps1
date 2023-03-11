@@ -10,7 +10,7 @@ $RPCS3path = "$PSScriptRoot\rpcs3.exe"
 $PS3DEC = "$PSScriptRoot\ps3dec\PS3Dec.exe"
 #path to disc key files for decryptions
 $KeysPath = "$PSScriptRoot\dkeys"
-#leave as '' or change to path without trailing \  for example F: or F:\myisos
+#leave as '' to save to same location as ISO, or change to custom location between ''
 $DecryptPath = ''
 
 $Keys = Get-ChildItem -LiteralPath $KeysPath
@@ -20,7 +20,11 @@ $KeyValue = Get-Content -LiteralPath $key.FullName
 if ([string]::IsNullOrWhiteSpace($DecryptPath)) {
     $DecryptISO = (Split-Path $ISOpath -Parent) + "\$ISOname" + '_DEC.iso'
 } else {
-    $DecryptISO = $DecryptPath + "\$ISOname" + '_DEC.iso'
+    if ($DecryptPath -match '.+[^\\]\\$' ) {
+        $DecryptISO = $DecryptPath + "$ISOname" + '_DEC.iso'
+    } else {
+        $DecryptISO = $DecryptPath + "\$ISOname" + '_DEC.iso'
+    }
 }
 
 & $PS3DEC d key $KeyValue $ISOpath $DecryptISO | Out-Null
