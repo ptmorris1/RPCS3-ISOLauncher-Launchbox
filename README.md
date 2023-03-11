@@ -108,7 +108,7 @@ Instructions:
 - Enter path to the saved script and run.  
   * Need help? [ReadMe](https://learn.microsoft.com/en-us/powershell/scripting/windows-powershell/ise/how-to-write-and-run-scripts-in-the-windows-powershell-ise?view=powershell-7.3)
 
-# Troubleshooting ISO lancher
+# Troubleshooting ISO launcher
 
 ***E SYS: Booting ':/PS3_GAME/USRDIR/EBOOT.BIN' with cli argument failed: reason: Invalid file or folder***
 
