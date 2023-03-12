@@ -1,9 +1,10 @@
-# Will get ISO param from Launchbox
+# Will get ISO param from Launchbox or launch script in Powershell with   -ISOpath 'C:\myiso\game.iso'
 param (
     [Parameter(Mandatory = $true)]
     [string]$ISOpath
 )
 
+##############  Stuff to change if required.
 # Put script in same folder as rpcs3.exe or change to direct path.
 $RPCS3path = "$PSScriptRoot\rpcs3.exe"
 #Path to PS3DEC.exe
@@ -12,7 +13,10 @@ $PS3DEC = "$PSScriptRoot\ps3dec\PS3Dec.exe"
 $KeysPath = "$PSScriptRoot\dkeys"
 #leave as '' to save to same location as ISO, or change to custom location between ''
 $DecryptPath = ''
+#Keep decrypted iso or delete after rpcs3 closes.  Default is 'yes' and will delete.
+$DeleteFile = 'yes'
 
+################# Start script
 $Keys = Get-ChildItem -LiteralPath $KeysPath
 $ISOname = [System.IO.Path]::GetFileNameWithoutExtension($ISOpath)
 $Key = $Keys | Where-Object -Property name -Like "$ISOname*"
@@ -27,7 +31,8 @@ if ([string]::IsNullOrWhiteSpace($DecryptPath)) {
     }
 }
 
-& $PS3DEC d key $KeyValue $ISOpath $DecryptISO | Out-Null
+# Checks if decrypted ISO exists alerady and only decrypts if not present.
+if (-not (Test-Path -LiteralPath $DecryptISO)){ & $PS3DEC d key $KeyValue $ISOpath $DecryptISO | Out-Null }
 
 # Mounts the ISO to a drive letter
 $Vol = Mount-DiskImage -ImagePath $DecryptISO -PassThru
@@ -37,7 +42,7 @@ Start-Sleep -Seconds 2
 $Voldisk = $vol | Get-Volume
 # Created the $path variable to the EBOOT.BIN file for lanching in rpcs3
 $path = $Voldisk.DriveLetter + ':\PS3_GAME\USRDIR\EBOOT.BIN'
-# Lanches rpcs3 with EBOOT.BIN path, can add extra arguments for rpcs3.exe if needed.  Not tested in this script.
+# Lanches rpcs3 with EBOOT.BIN path, ######can add extra arguments for rpcs3.exe if needed.  Not fully in this script.
 & $RPCS3path $path
 # sleeps 2 seconds until rpcs3 has a chance to start
 Start-Sleep -Seconds 2
@@ -45,4 +50,4 @@ Start-Sleep -Seconds 2
 Wait-Process rpcs3
 # Dismounts the ISO image drive
 Dismount-DiskImage -ImagePath $DecryptISO
-Remove-Item -LiteralPath $DecryptISO -Force
+if ($DeleteFile -match 'yes') {Remove-Item -LiteralPath $DecryptISO -Force}

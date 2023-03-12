@@ -16,10 +16,12 @@ Discussion:  [RPCS3 ISO support](https://forums.launchbox-app.com/topic/42569-rp
 1. Copy RPCS3-ISO-LaunchBox.ps1 script to same folder as the RPCS3.exe.
     * If you don't want to put script in same folder, change $RPCS3path variable to your rpcs3.exe file.
 ```powershell
-$RPCS3path = "$PSScriptRoot\rpcs3.exe"  # this is default and loads rpcs3.exe from same folder as script, no change needed.
+$RPCS3path = "$PSScriptRoot\rpcs3.exe"  
+# this is default and loads rpcs3.exe from same folder as script, no change needed.
 ```
 ```powershell
-$RPCS3path = "D:\Path\To\rpcs3.exe"     # change to path directly to script anywhere IF NEEDED.
+$RPCS3path = "D:\Path\To\rpcs3.exe"     
+# change to path directly to script anywhere IF NEEDED.
 ```
 
 2. Setup Launch box emulator like below screenshot.
@@ -67,13 +69,20 @@ Required:
 - Powershell.
 
 ```powershell
-$PS3DEC = "$PSScriptRoot\ps3dec\PS3Dec.exe"  ## must point to ps3.exe.  Default is in ps3dec folder with rpcs3.exe
+$PS3DEC = "$PSScriptRoot\ps3dec\PS3Dec.exe"  
+## must point to ps3dec.exe.  Default is in ps3dec folder with rpcs3.exe
 ```
 ```powershell
-$KeysPath = "$PSScriptRoot\dkeys" ## Must point to folder with dkeys.  Default is in folder called dkeys with rpcs3.exe
+$KeysPath = "$PSScriptRoot\dkeys" 
+## Must point to folder with dkeys.  Default is in folder called dkeys with rpcs3.exe
 ```
 ```powershell
-$DecryptPath = '' ## Must point to folder where decrypted ISO will be written.  Default is same folder as orginal ISO
+$DecryptPath = '' 
+## Must point to folder where decrypted ISO will be written.  Default is same folder as orginal ISO
+```
+```powershell
+$DeleteFile = 'yes'  
+##yes is default and deletes decrypted iso after use.  'no' will keep ISO for next time you load game.  Uses more HDD space
 ```
 
 Discussion:  [RPCS3-Decrypt-ISO-LaunchBox](https://forums.launchbox-app.com/topic/72105-ps3-looking-to-create-a-batch-file-to-decrypt-isos-with-ps3dec-when-launching-a-game-then-delete-the-decrypted-ps3-file-on-quit/)
