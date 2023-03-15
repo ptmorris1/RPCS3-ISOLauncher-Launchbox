@@ -19,7 +19,7 @@ $DeleteFile = 'yes'
 ################# Start script
 $Keys = Get-ChildItem -LiteralPath $KeysPath
 $ISOname = [System.IO.Path]::GetFileNameWithoutExtension($ISOpath)
-$Key = $Keys | Where-Object -Property name -Like "$ISOname*"
+$Key = $Keys | Where-Object -Property name -Like "$ISOname.dkey"
 $KeyValue = Get-Content -LiteralPath $key.FullName
 if ([string]::IsNullOrWhiteSpace($DecryptPath)) {
     $DecryptISO = (Split-Path $ISOpath -Parent) + "\$ISOname" + '_DEC.iso'
