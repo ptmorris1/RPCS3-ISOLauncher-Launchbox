@@ -1,142 +1,110 @@
-# RPCS3-ISOLauncher-Launchbox
+# 🎮 RPCS3-ISOLauncher-Launchbox
 
-This is a PowerShell script to mount an ISO image to be run in the [RPCS3](https://rpcs3.net) emulator using [Launchbox](https://www.launchbox-app.com) and unmount when program closes.
+A PowerShell script to mount a PlayStation 3 ISO image for use with the [RPCS3](https://rpcs3.net) emulator, designed for seamless integration with [LaunchBox](https://www.launchbox-app.com). The script automatically mounts the ISO, launches the game in RPCS3, and unmounts the ISO when RPCS3 closes. All actions and errors are logged for troubleshooting.
 
-Can also be used without Lanchbox. Follow step 1 below then run in powershell like: `.\RPCS3-ISO-LaunchBox.ps1 -ISOpath D:\my.iso`
+## ✨ Features
 
-Can be run directly in Launchbox using PowerShell
+- ✅ **Automatic ISO Mounting:** Mounts the specified ISO and detects the drive letter.
+- ✅ **Automatic Unmount:** Dismounts the ISO after RPCS3 closes.
+- 📝 **Robust Logging:** All actions and errors are appended to a log file with timestamps.
+- 🛡️ **Error Handling:** Validates ISO path, checks for EBOOT.BIN, and handles failures gracefully.
 
-Discussion:  [RPCS3 ISO support](https://forums.launchbox-app.com/topic/42569-rpcs3-iso-support-with-powershell/)
+## ⚡ Installation
 
-</br>
-</br>
+1. 📄 Copy [`RPCS3-ISO-LaunchBox.ps1`](./RPCS3-ISO-LaunchBox.ps1) to the same folder as `rpcs3.exe`.
+    - If you prefer a different location, edit the `$RPCS3path` variable in the script to point to your `rpcs3.exe`.
+    ```powershell
+    $RPCS3path = "$PSScriptRoot\rpcs3.exe"  # Default: same folder as script
+    # or
+    $RPCS3path = "D:\Path\To\rpcs3.exe"    # Custom path
+    ```
 
-## Install
+2. 🛠️ Configure LaunchBox:
+    - Open **Tools → Manage → Emulators...**
+    - Add a new Emulator and configure like:
 
-1. Copy RPCS3-ISO-LaunchBox.ps1 script to same folder as the RPCS3.exe.
-    * If you don't want to put script in same folder, change $RPCS3path variable to your rpcs3.exe file.
-```powershell
-$RPCS3path = "$PSScriptRoot\rpcs3.exe"  
-# this is default and loads rpcs3.exe from same folder as script, no change needed.
-```
-```powershell
-$RPCS3path = "D:\Path\To\rpcs3.exe"     
-# change to path directly to script anywhere IF NEEDED.
-```
+      ![Emulator Add](screenshots/LaunchboxEmulatorConfig.png)
+    - Set the emulator application path to your PowerShell executable (e.g., `pwsh.exe` for PowerShell 7 or `powershell.exe` for Windows PowerShell).
+    - ⚠️ **Note:** PowerShell 7 is not installed by default on Windows. You can download it from [Microsoft's official site](https://github.com/PowerShell/PowerShell).
+    - Example PowerShell 7 path:
+      ```
+      C:\Program Files\PowerShell\7\pwsh.exe
+      ```
+    - Example Windows PowerShell path:
+      ```
+      C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+      ```
+    - Set the default command-line parameters:
+      ```powershell
+      -noprofile -executionpolicy bypass -WindowStyle hidden -file "<PathToScript>\RPCS3-ISO-LaunchBox.ps1" -ISOpath "%romfile%"
+      ```
+      Replace `<PathToScript>` with the actual path to your script which should be inside the RPCS3 folder if you are following this guide and did not change it.
 
-2. Setup Launch box emulator like below screenshot.
-   * Emulator name can be whatever you want.
-   * Set application path to Powershell.exe.  I used Powershell 7 but WindowsPowershell shoud work as well.
+3. 🎮 Also configure an association with PlayStation 3 and set as default if desired.
+   - ![Associate-ISO](screenshots/AssociatedPlatformsPS3.png)
 
-![EmulatorConfig](https://github.com/ptmorris1/RPCS3-ISOLauncher-Launchbox/blob/master/screenshots/LaunchboxEmulatorConfig.png?raw=true)
+## 🚀 Usage
 
-## Powershell 7 application path
+- ▶️ If you set as default, launch game normally from LaunchBox.
+- 🖱️ If not default, right-click a game and choose **Launch with...** and pick the emulator you created above.
 
-    C:\Program Files\PowerShell\7\pwsh.exe
-
-## WindowsPowershell application path
-
-    C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
-
-## Default Command-Line Parameters:
-
-    -noprofile -executionpolicy bypass -WindowStyle hidden -file "E:\LaunchBox\Emulators\rpcs3\RPCS3-ISO-LaunchBox.ps1"
-
-- Change path to where you put the RPCS3-ISO-LaunchBox.ps1 script.
-
-</br>
-
-3. Now to test by editing an ISO in Launchbox and change emulator to what you named your emulator, my example "RPCS3 ISO Launcher".
-
-![ISO-Edit](https://github.com/ptmorris1/RPCS3-ISOLauncher-Launchbox/blob/master/screenshots/ISO-Edit.png?raw=true)
-
-4. Launch game with Lanchbox and hope for the best. :grin:
-
-</br>
-</br>
-
-# RPCS3-Decrypt-ISO-LaunchBox
-
-This is a PowerShell script to decrypt and mount an ISO image to be run in the [RPCS3](https://rpcs3.net) emulator using [Launchbox](https://www.launchbox-app.com) after closing it will unmount and delete decrypted iso.
-
-Same installation setup as RPCS3-ISO-LaunchBox.ps1 but extra options needed and need to be changed in script.
-
-Required:
-- windows computer
-- ps3dec.exe  tested using [PS3Dec_R5](https://github.com/al3xtjames/PS3Dec)
-- dkeys for each game.
-- encrypted PS3 ISO files.
-- Powershell.
-
-```powershell
-$PS3DEC = "$PSScriptRoot\ps3dec\PS3Dec.exe"  
-## must point to ps3dec.exe.  Default is in ps3dec folder with rpcs3.exe
-```
-```powershell
-$KeysPath = "$PSScriptRoot\dkeys" 
-## Must point to folder with dkeys.  Default is in folder called dkeys with rpcs3.exe
-```
-```powershell
-$DecryptPath = '' 
-## Must point to folder where decrypted ISO will be written.  Default is same folder as orginal ISO
-```
-```powershell
-$DeleteFile = 'yes'  
-##yes is default and deletes decrypted iso after use.  'no' will keep ISO for next time you load game.  Uses more HDD space
-```
-
-Discussion:  [RPCS3-Decrypt-ISO-LaunchBox](https://forums.launchbox-app.com/topic/72105-ps3-looking-to-create-a-batch-file-to-decrypt-isos-with-ps3dec-when-launching-a-game-then-delete-the-decrypted-ps3-file-on-quit/)
-
-</br>
-</br>
-
-# Bulk-Decrypt-ISOs
-
-Simple script to bulk decrypt a folder full of encrypted ISOs.
-
-Required:
-- windows computer
-- ps3dec.exe  tested using [PS3Dec_R5](https://github.com/al3xtjames/PS3Dec)
-- dkeys for each game.
-- encrypted PS3 ISO files.
-- Powershell.  Must set [execution_policy](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.3) to remotesigned.
+- To run manually from PowerShell (without LaunchBox):
   ```powershell
-  Set-ExecutionPolicy remotesigned -force
+  cd C:\path\to\rpcs3folder
+  .\RPCS3-ISO-LaunchBox.ps1 -ISOpath D:\path\to\game.iso
   ```
+- The script will:
+  1. 🔍 Validate the ISO path.
+  2. 💽 Mount the ISO and detect the drive letter.
+  3. 📂 Locate `EBOOT.BIN` at `DriveLetter:\PS3_GAME\USRDIR\EBOOT.BIN`.
+  4. 🕹️ Launch RPCS3 in Fullscreen, NoGui mode. (Hit `Esc` to minimize.)
+  5. ⏳ Wait for RPCS3 to exit, then unmount the ISO.
+  6. 📝 Log all actions and errors to a file.
 
-Instructions:
-- Download script and edit with notepad or your favorite text\code editor.
-- Change 1st 4 [variables](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_variables?view=powershell-7.3) to paths that suit your needs.
-  * $PS3DEC - Path to ps3dec.exe file. Example:  'C:\path\ps3dec.exe'
-  * $ISOroot - Path to where you have your encrypted ISOs stored.  Name must match dkey file exactly excluding file extension.
-  * $ISODecrypt - Path to folder where decrypted ISO files will be written.
-  * $dkeys - Path to folder that include all dkeys for your ISO files.  Must be named same as ISO file excluding file extension.
-- Open Powershell and set execution policy with command
-  * Set-ExecutionPolicy remotesigned -force
-  * May need to restart powershell afterwards if each ISO asks for a confirmation prompt.
-- Enter path to the saved script and run.  
-  * Need help? [ReadMe](https://learn.microsoft.com/en-us/powershell/scripting/windows-powershell/ise/how-to-write-and-run-scripts-in-the-windows-powershell-ise?view=powershell-7.3)
+## 📝 Logging
 
-# Troubleshooting ISO launcher
+- All actions and errors are logged to the same folder as the script in a file called `pwsh.log`.
+- Each entry includes a timestamp and message.
+- The log file is appended (not overwritten) on each run.
 
-***E SYS: Booting ':/PS3_GAME/USRDIR/EBOOT.BIN' with cli argument failed: reason: Invalid file or folder***
+## 🛠️ Troubleshooting
 
-- If RPCS3 gives error about path, may need to change mount wait time.
-Edit script and change line 12: ***Start-Sleep -Seconds 2***
-Change 2 to 3 or however many seconds your system needs to mount your ISO.
+- ❌ **ISO not mounting or no drive letter assigned:**
+  - Ensure the ISO file exists and is not corrupted or encrypted.
+  - The script waits up to 10 seconds for the drive to be ready.
+- ❌ **EBOOT.BIN not found:**
+  - The script expects the standard PS3 folder structure. Custom ISOs may not work.
 
-***RPCS3 closes to fast***
+## 📦 Bulk Decrypting PS3 ISOs
 
-- If RPSS3 is slower to start on your system
-Edit line 20 and change -Seconds to 3 or more as needed.
+The [`Bulk-Decrypt-ISOs.ps1`](./Bulk-Decrypt-ISOs.ps1) script allows you to decrypt multiple PS3 ISO files in a batch process using `ps3dec.exe` and your collection of `.dkey` files.
 
-</br>
-</br>
+### Usage
 
-# Troubleshooting decrypt ISO launcher
+1. **Download** [`Bulk-Decrypt-ISOs.ps1`](./Bulk-Decrypt-ISOs.ps1) and save it to a folder of your choice. **Edit the script** to set the correct paths at the top for:
+   - `$PS3DEC` – Path to your `ps3dec.exe` binary
+   - `$ISOroot` – Folder containing your encrypted ISO files
+   - `$ISOdecrypt` – Folder where decrypted ISOs will be moved
+   - `$dKeys` – Folder containing your `.dkey` files (named to match each ISO)
 
-</br>
-</br>
+2. **Run the script** from PowerShell:
+   ```powershell
+   cd D:\downloads
+   .\Bulk-Decrypt-ISOs.ps1
+   ```
 
-# Troubleshooting bulk decrypt script
+3. The script will:
+   - Scan the ISO folder for all files
+   - Find the matching `.dkey` for each ISO
+   - Run `ps3dec.exe` to decrypt each ISO
+   - Move decrypted ISOs to the target folder
+   - Output a summary report with status, file size, regions, and any errors
+
+### Output
+- Output is parsed from ps3dec
+- The script prints a table of results to the console.
+- Each entry includes the original ISO name, decrypted file, status, and details from the decryption process.
+- Errors (such as missing keys or decryption failures) are reported per file.
+
+---
 
